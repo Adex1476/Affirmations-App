@@ -18,37 +18,166 @@ package com.example.affirmations
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.runtime.Composable
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.CornerSize
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme.typography
+import androidx.compose.material.SnackbarDefaults.backgroundColor
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.affirmations.data.Datasource
 import com.example.affirmations.model.Affirmation
+import com.example.affirmations.ui.theme.AffirmationsTheme
+import com.example.affirmations.ui.theme.Shapes
+import com.example.affirmations.ui.theme.Typography
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      // TODO 5. Show screen
+      AffirmationApp()
     }
   }
 }
 
 @Composable
 fun AffirmationApp() {
-  // TODO 4. Apply Theme and affirmation list
+  AffirmationsTheme {
+    AffirmationList(affirmationList = Datasource().loadAffirmations(), modifier = Modifier.background(color = MaterialTheme.colors.background))
+  }
 }
 
 @Composable
 fun AffirmationList(affirmationList: List<Affirmation>, modifier: Modifier = Modifier) {
-  // TODO 3. Wrap affirmation card in a lazy column
+  LazyColumn {
+    items(affirmationList) { affirmation ->
+      AffirmationCard(affirmation)
+    }
+  }
 }
+
+/*
+@Composable
+fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
+  Card(
+    modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth(),
+    elevation = 2.dp,
+    shape = RoundedCornerShape(corner = CornerSize(16.dp))
+
+  ) {
+    Row {
+      CardImage(affirmation)
+      Column(
+        modifier = Modifier
+          .padding(16.dp)
+          .fillMaxWidth()
+          .align(Alignment.CenterVertically)) {
+        Text(text = stringResource(affirmation.stringResourceId), style = typography.h6)
+      }
+    }
+  }
+}*/
 
 @Composable
 fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
   // TODO 1. Your card UI
+  var expanded by remember { mutableStateOf(false) }
+  Card(modifier=modifier,border = BorderStroke(
+    2.dp, color= MaterialTheme.colors.secondary), elevation = 2.dp) {
+    Column(modifier = Modifier
+      .animateContentSize(
+        animationSpec = spring(
+          dampingRatio = Spring.DampingRatioMediumBouncy,
+          stiffness = Spring.StiffnessLow
+        )
+      )) {
+      Row (modifier = Modifier
+        .fillMaxSize()
+        .clip(RoundedCornerShape(corner = CornerSize(16.dp))),
+        horizontalArrangement = Arrangement.Start,
+        verticalAlignment = Alignment.CenterVertically,
+      ) {
+        CardImage(affirmation)
+        Text(text = stringResource(affirmation.stringResourceId), style = typography.h6, color = MaterialTheme.colors.secondary,
+          modifier = Modifier
+            .weight(1.5f)
+            .padding(10.dp))
+        ItemButton(
+          expanded = expanded,
+          onClick = { expanded = !expanded},
+        )
+      }
+      if (expanded) { Description() }
+    }
+  }
 }
+
+@Composable
+private fun CardImage(affirmation: Affirmation) {
+  Image(
+    painter = painterResource(id = affirmation.imageResourceId),
+    contentDescription = null,
+    contentScale = ContentScale.Crop,
+    modifier = Modifier
+      .padding(7.dp)
+      .size(84.dp)
+      .clip(RoundedCornerShape(corner = CornerSize(16.dp)))
+  )
+}
+
+@Composable
+fun ItemButton(expanded: Boolean,
+               onClick: () -> Unit,
+               modifier: Modifier = Modifier){
+  IconButton(onClick = onClick ) {
+    Icon(
+      imageVector = if (expanded) Icons.Filled.ArrowDropDown else Icons.Filled.ArrowDropDown,
+      tint = MaterialTheme.colors.secondary,
+      contentDescription = "ItemButton"
+    )
+  }
+}
+
+@Composable
+fun Description() {
+  Column(
+    modifier = Modifier.padding(
+      start = 8.dp,
+      top = 4.dp,
+      bottom = 8.dp,
+      end = 4.dp
+    )
+  ) {
+    Text(text = "Description: ", style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(2.dp))
+    Text(text = "Prototype", style= Typography.body2, color = MaterialTheme.colors.secondary, modifier = Modifier.padding(2.dp))
+  }
+}
+
 
 @Preview
 @Composable
 private fun AffirmationCardPreview() {
-  // TODO 2. Preview your card
+  AffirmationCard (Affirmation(R.string.affirmation1, R.drawable.image1))
 }
