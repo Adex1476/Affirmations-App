@@ -21,10 +21,7 @@ import androidx.activity.compose.setContent
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -45,6 +42,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.affirmations.data.Datasource
@@ -77,28 +75,6 @@ fun AffirmationList(affirmationList: List<Affirmation>, modifier: Modifier = Mod
     }
   }
 }
-
-/*
-@Composable
-fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
-  Card(
-    modifier = Modifier.padding(horizontal = 8.dp, vertical = 8.dp).fillMaxWidth(),
-    elevation = 2.dp,
-    shape = RoundedCornerShape(corner = CornerSize(16.dp))
-
-  ) {
-    Row {
-      CardImage(affirmation)
-      Column(
-        modifier = Modifier
-          .padding(16.dp)
-          .fillMaxWidth()
-          .align(Alignment.CenterVertically)) {
-        Text(text = stringResource(affirmation.stringResourceId), style = typography.h6)
-      }
-    }
-  }
-}*/
 
 @Composable
 fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
@@ -151,7 +127,7 @@ private fun CardImage(affirmation: Affirmation) {
 fun ItemButton(expanded: Boolean,
                onClick: () -> Unit,
                modifier: Modifier = Modifier){
-  IconButton(onClick = onClick ) {
+  IconButton(onClick = onClick) {
     Icon(
       imageVector = if (expanded) Icons.Filled.ArrowDropDown else Icons.Filled.ArrowDropDown,
       tint = MaterialTheme.colors.secondary,
@@ -161,17 +137,18 @@ fun ItemButton(expanded: Boolean,
 }
 
 @Composable
-fun Description() {
+fun Description(modifier: Modifier = Modifier) {
   Column(
-    modifier = Modifier.padding(
-      start = 8.dp,
-      top = 4.dp,
-      bottom = 8.dp,
-      end = 4.dp
-    )
+    modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 8.dp, end = 4.dp)
   ) {
     Text(text = "Description: ", style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(2.dp))
-    Text(text = "Prototype", style= Typography.body2, color = MaterialTheme.colors.secondary, modifier = Modifier.padding(2.dp))
+    Text(text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      style= Typography.body2,
+      color = MaterialTheme.colors.secondary,
+      modifier = Modifier.padding(2.dp),
+      overflow = TextOverflow.Ellipsis,
+      maxLines = 2)
+    Text(text = stringResource(R.string.detailButton), style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(start = 310.dp, top = 10.dp, bottom = 8.dp, end = 4.dp))
   }
 }
 
