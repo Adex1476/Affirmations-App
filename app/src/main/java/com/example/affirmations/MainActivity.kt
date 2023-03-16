@@ -155,12 +155,11 @@ fun Description(affirmationId: Int, description: String, modifier: Modifier = Mo
       maxLines = 2)
     val affirmationContxt = LocalContext.current
     Row(Modifier.clickable {
-      /*
       affirmationContxt.startActivity(
         Intent(
           affirmationContxt, DetailActivity::class.java
         ).putExtra("affirmationId", affirmationId)
-      )*/
+      )
     }) {
       Text(text = stringResource(R.string.detailButton), style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(start = 310.dp, top = 10.dp, bottom = 8.dp, end = 4.dp))
     }
@@ -171,5 +170,5 @@ fun Description(affirmationId: Int, description: String, modifier: Modifier = Mo
 @Preview
 @Composable
 private fun AffirmationCardPreview() {
-  AffirmationCard (Affirmation(1, R.string.affirmation1, R.string.description1, R.drawable.image1))
+  AffirmationCard (Affirmation(11, R.string.affirmation1, R.string.description1, R.drawable.image1))
 }
