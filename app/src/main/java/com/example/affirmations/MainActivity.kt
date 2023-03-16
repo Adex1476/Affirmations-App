@@ -34,6 +34,7 @@ import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -50,6 +51,7 @@ import com.example.affirmations.model.Affirmation
 import com.example.affirmations.ui.theme.AffirmationsTheme
 import com.example.affirmations.ui.theme.Shapes
 import com.example.affirmations.ui.theme.Typography
+import com.example.affirmations.viewmodel.MainViewModel
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,9 +63,11 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AffirmationApp() {
+fun AffirmationApp(viewModel: MainViewModel) {
+  val uiState by viewModel._uiState.collectAsState()
   AffirmationsTheme {
-    AffirmationList(affirmationList = Datasource().loadAffirmations(), modifier = Modifier.background(color = MaterialTheme.colors.background))
+    val count = rememberSaveable { mutableStateOf(0) }
+    AffirmationList(affirmationList = uiState, modifier = Modifier.background(color = MaterialTheme.colors.background))
   }
 }
 
@@ -105,7 +109,10 @@ fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
           onClick = { expanded = !expanded},
         )
       }
-      if (expanded) { Description() }
+      if (expanded) {
+        Description(stringResource(affirmation.descriptionResourceId))
+        affirmation.id
+      }
     }
   }
 }
@@ -137,18 +144,20 @@ fun ItemButton(expanded: Boolean,
 }
 
 @Composable
-fun Description(modifier: Modifier = Modifier) {
+fun Description(description: String, modifier: Modifier = Modifier) {
   Column(
     modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 8.dp, end = 4.dp)
   ) {
     Text(text = "Description: ", style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(2.dp))
-    Text(text = "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+    Text(text = description,
       style= Typography.body2,
       color = MaterialTheme.colors.secondary,
       modifier = Modifier.padding(2.dp),
       overflow = TextOverflow.Ellipsis,
       maxLines = 2)
-    Text(text = stringResource(R.string.detailButton), style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(start = 310.dp, top = 10.dp, bottom = 8.dp, end = 4.dp))
+    Row(Modifier.clickable { /*navigateToProfile(digimon)*/ }) {
+      Text(text = stringResource(R.string.detailButton), style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(start = 310.dp, top = 10.dp, bottom = 8.dp, end = 4.dp))
+    }
   }
 }
 
@@ -156,5 +165,5 @@ fun Description(modifier: Modifier = Modifier) {
 @Preview
 @Composable
 private fun AffirmationCardPreview() {
-  AffirmationCard (Affirmation(R.string.affirmation1, R.drawable.image1))
+  AffirmationCard (Affirmation(1, R.string.affirmation1, R.string.description1, R.drawable.image1))
 }
