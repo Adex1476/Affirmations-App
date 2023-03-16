@@ -15,6 +15,7 @@
  */
 package com.example.affirmations
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,12 +26,10 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CornerSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.MaterialTheme.typography
-import androidx.compose.material.SnackbarDefaults.backgroundColor
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.runtime.*
@@ -38,7 +37,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -46,12 +44,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.affirmations.data.Datasource
 import com.example.affirmations.model.Affirmation
 import com.example.affirmations.ui.theme.AffirmationsTheme
-import com.example.affirmations.ui.theme.Shapes
 import com.example.affirmations.ui.theme.Typography
 import com.example.affirmations.viewmodel.MainViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 
 class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,8 +60,8 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun AffirmationApp(viewModel: MainViewModel) {
-  val uiState by viewModel._uiState.collectAsState()
+fun AffirmationApp(_viewModel: MainViewModel = viewModel()) {
+  val uiState by _viewModel._uiState.collectAsState()
   AffirmationsTheme {
     val count = rememberSaveable { mutableStateOf(0) }
     AffirmationList(affirmationList = uiState, modifier = Modifier.background(color = MaterialTheme.colors.background))
@@ -110,7 +107,7 @@ fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
         )
       }
       if (expanded) {
-        Description(stringResource(affirmation.descriptionResourceId))
+        stringResource(affirmation.descriptionResourceId)
         affirmation.id
       }
     }
@@ -144,7 +141,7 @@ fun ItemButton(expanded: Boolean,
 }
 
 @Composable
-fun Description(description: String, modifier: Modifier = Modifier) {
+fun Description(affirmationId: Int, description: String, modifier: Modifier = Modifier) {
   Column(
     modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 8.dp, end = 4.dp)
   ) {
@@ -155,7 +152,15 @@ fun Description(description: String, modifier: Modifier = Modifier) {
       modifier = Modifier.padding(2.dp),
       overflow = TextOverflow.Ellipsis,
       maxLines = 2)
-    Row(Modifier.clickable { /*navigateToProfile(digimon)*/ }) {
+    val affirmationContxt = LocalContext.current
+    Row(Modifier.clickable {
+      /*
+      affirmationContxt.startActivity(
+        Intent(
+          affirmationContxt, DetailActivity::class.java
+        ).putExtra("affirmationId", affirmationId)
+      )*/
+    }) {
       Text(text = stringResource(R.string.detailButton), style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(start = 310.dp, top = 10.dp, bottom = 8.dp, end = 4.dp))
     }
   }
