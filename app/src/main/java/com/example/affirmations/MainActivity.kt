@@ -54,7 +54,6 @@ class MainActivity : ComponentActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContent {
-      //commit
       AffirmationApp()
     }
   }
@@ -107,10 +106,7 @@ fun AffirmationCard(affirmation: Affirmation, modifier: Modifier = Modifier) {
           onClick = { expanded = !expanded},
         )
       }
-      if (expanded) {
-        stringResource(affirmation.descriptionResourceId)
-        affirmation.id
-      }
+      if (expanded) { Description(affirmation.id , stringResource(affirmation.descriptionResourceId)) }
     }
   }
 }
@@ -146,7 +142,10 @@ fun Description(affirmationId: Int, description: String, modifier: Modifier = Mo
   Column(
     modifier = Modifier.padding(start = 8.dp, top = 4.dp, bottom = 8.dp, end = 4.dp)
   ) {
-    Text(text = "Description: ", style= Typography.body1, color = MaterialTheme.colors.primary, modifier = Modifier.padding(2.dp))
+    Text(text = "Description: ",
+      style= Typography.body1,
+      color = MaterialTheme.colors.primary,
+      modifier = Modifier.padding(2.dp))
     Text(text = description,
       style= Typography.body2,
       color = MaterialTheme.colors.secondary,

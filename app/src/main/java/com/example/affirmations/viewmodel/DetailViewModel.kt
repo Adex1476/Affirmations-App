@@ -14,8 +14,8 @@ class DetailViewModel(affirmationID: Int) : ViewModel() {
 
     private fun setAffirmation(affirmationID: Int) : Affirmation{
         val loadAffirmations = Datasource().loadAffirmations()
-        for (Affirmation in loadAffirmations){
-            if (Affirmation.id == affirmationID){ return Affirmation }
+        for (Affirmation in loadAffirmations) {
+            if (Affirmation.id == affirmationID) { return Affirmation }
         }
         return loadAffirmations[0]
     }
