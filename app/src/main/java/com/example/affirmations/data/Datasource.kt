@@ -22,15 +22,15 @@ import com.example.affirmations.model.Affirmation
 class Datasource() {
     fun loadAffirmations(): List<Affirmation> {
         return listOf<Affirmation>(
-            Affirmation(11, R.string.affirmation1,  R.string.description1, R.drawable.image1),
-            Affirmation(12, R.string.affirmation2, R.string.description2, R.drawable.image2),
-            Affirmation(13, R.string.affirmation3, R.string.description3, R.drawable.image3),
-            Affirmation(14, R.string.affirmation4, R.string.description4, R.drawable.image4),
-            Affirmation(15, R.string.affirmation5, R.string.description5, R.drawable.image5),
-            Affirmation(16, R.string.affirmation6, R.string.description6, R.drawable.image6),
-            Affirmation(17, R.string.affirmation7, R.string.description7, R.drawable.image7),
-            Affirmation(18, R.string.affirmation8, R.string.description8, R.drawable.image8),
-            Affirmation(19, R.string.affirmation9, R.string.description9, R.drawable.image9),
-            Affirmation(20, R.string.affirmation10, R.string.description10, R.drawable.image10))
+            Affirmation(11, R.string.affirmation1,  R.string.description1, R.drawable.image1, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(12, R.string.affirmation2, R.string.description2, R.drawable.image2, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(13, R.string.affirmation3, R.string.description3, R.drawable.image3, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(14, R.string.affirmation4, R.string.description4, R.drawable.image4, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(15, R.string.affirmation5, R.string.description5, R.drawable.image5, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(16, R.string.affirmation6, R.string.description6, R.drawable.image6, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(17, R.string.affirmation7, R.string.description7, R.drawable.image7, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(18, R.string.affirmation8, R.string.description8, R.drawable.image8, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(19, R.string.affirmation9, R.string.description9, R.drawable.image9, "987654321", "blankmail@gmail.com", "Affirmations for you!"),
+            Affirmation(20, R.string.affirmation10, R.string.description10, R.drawable.image10, "987654321", "blankmail@gmail.com", "Affirmations for you!"))
     }
 }

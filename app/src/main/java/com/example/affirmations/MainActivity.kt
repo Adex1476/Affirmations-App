@@ -169,5 +169,5 @@ fun Description(affirmationId: Int, description: String, modifier: Modifier = Mo
 @Preview
 @Composable
 private fun AffirmationCardPreview() {
-  AffirmationCard (Affirmation(11, R.string.affirmation1, R.string.description1, R.drawable.image1))
+  AffirmationCard (Affirmation(11, R.string.affirmation1, R.string.description1, R.drawable.image1, "987654321", "blankmail@gmail.com", "Affirmations for you!"))
 }
